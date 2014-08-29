@@ -35,7 +35,25 @@
 #
 # Copyright 2014 Your name here, unless otherwise noted.
 #
-class praxis {
+class praxis (
+      $document_root = '/var/www/html/praxis',
+      $port = '80',
+) {
 
+  class { 'apache': default_vhost => false }
+ 
+  apache:vhost { 'puppet-node2':
+    port => $port,
+    docroot => $document_root,
+  }
+
+  file { '/var/www/html/praxis':
+    ensure => directory,
+    owner => $::apache::params::user,
+    group => $::apache::params::group,
+    source => 'puppet:///modules/praxis/html,
+    recurse => true,
+    require => Class['apache'],
+  }
 
 }
