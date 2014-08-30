@@ -40,9 +40,11 @@ class praxis (
       $port = '80',
 ) {
 
-  class { 'apache': default_vhost => false }
+  class { 'apache': 
+     default_vhost => false,
+  }
  
-  apache:vhost { 'puppet-node2':
+  apache::vhost { 'puppet-node2':
     port => $port,
     docroot => $document_root,
   }
@@ -51,7 +53,7 @@ class praxis (
     ensure => directory,
     owner => $::apache::params::user,
     group => $::apache::params::group,
-    source => 'puppet:///modules/praxis/html,
+    source => 'puppet:///modules/praxis/html',
     recurse => true,
     require => Class['apache'],
   }
